@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+  
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart-Home</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+    
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyANa7DTJhWLqkP0f_ZW728w1i34fquIjkc",
+        authDomain: "smart-home-e56a9.firebaseapp.com",
+        databaseURL: "https://smart-home-e56a9-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "smart-home-e56a9",
+        storageBucket: "smart-home-e56a9.appspot.com",
+        messagingSenderId: "237676998781",
+        appId: "1:237676998781:web:e2cf27c6c962b42f530114"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      var database = firebase.database();
+
+      function firebaseSetManual()
+      {
+        var reff = firebase.database().ref('/home');
+        reff.child('mode').set("MANUAL");
+      }
+
+      function firebaseSetAuto()
+      {
+        var reff = firebase.database().ref('/home');
+        reff.child('mode').set("AUTO");
+      }
+
+      function firebaseSetLampOn()
+      {
+        var reff = firebase.database().ref('/home');
+        reff.child('lamp').set("ON");
+      }
+
+      function firebaseSetLampOff()
+      {
+        var reff = firebase.database().ref('/home');
+        reff.child('lamp').set("OFF");
+      }
+
+      function firebaseSetPlugOn()
+      {
+        var reff = firebase.database().ref('/home');
+        reff.child('plug').set("ON");
+      }
+
+      function firebaseSetPlugOff()
+      {
+        var reff = firebase.database().ref('/home');
+        reff.child('plug').set("OFF");
+      }
+
+      // ---
+
+      function firebaseSetPlugAuto()
+      {
+        var reff = firebase.database().ref('/home/auto');
+        reff.child('plug').set("AUTO");
+      }
+
+      function firebaseSetPlugAlwaysOff()
+      {
+        var reff = firebase.database().ref('/home/auto');
+        reff.child('plug').set("AOFF");
+      }
+
+      function firebaseSetPlugAlwaysOn()
+      {
+        var reff = firebase.database().ref('/home/auto');
+        reff.child('plug').set("AON");
+      }
+
+      // ---
+
+
+            // ---
+
+      function firebaseSetLampAuto()
+      {
+        var reff = firebase.database().ref('/home/auto');
+        reff.child('lamp').set("AUTO");
+      }
+
+      function firebaseSetLampAlwaysOff()
+      {
+        var reff = firebase.database().ref('/home/auto');
+        reff.child('lamp').set("AOFF");
+      }
+
+      function firebaseSetLampAlwaysOn()
+      {
+        var reff = firebase.database().ref('/home/auto');
+        reff.child('lamp').set("AON");
+      }
+
+      // ---
+
+      function firebaseSetAllAuto()
+      {
+        firebaseSetPlugAuto();
+        firebaseSetLampAuto();
+      }
+
+
+      
+
+    </script>
+  </head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <body>
+    <div class="container mt-3 d-flex justify-content-right">
+      Temperature:&nbsp;<span id="temperatura" style="font-weight:bold"></span>°C.&nbsp;&nbsp;
+      Humidity:&nbsp;<span id="umiditatea" style="font-weight:bold"></span>%.
+    </div>
+
+    <!-- <div class="container mt-3 d-flex justify-content-right"> 
+    </div>
+    -->
+
+    <div class="container mt-3 d-flex justify-content-right">
+      Last visible move:&nbsp;<span id="last_visible_move" style="font-weight:bold"></span>&nbsp; second(s) ago.
+    </div>
+
+    <div class="container mt-5 d-flex justify-content-center">
+        <button id="btn_manual" class="btn btn-xl btn-secondary mx-2 py-2 px-3" onclick="select_manual(); firebaseSetManual()">Manual</button>
+        <button id="btn_auto" class="btn btn-xl btn-secondary mx-2 py-2 px-4" onclick="select_auto(); firebaseSetAuto()">Auto</button>
+    </div>
+
+
+    <div id="box_manual" class="container mt-5 d-flex justify-content-center">
+
+      <div class="container text-center">
+        <div class="row justify-content-md-center">
+          <div class="col col-lg-2 text-center">
+            Stare lampa <span id="stare_lampa_manual"></span>
+            <div class="w-100 mt-3"></div>
+            <button class="btn btn-md btn-primary" onclick="firebaseSetLampOn()">Power&nbsp;on&nbsp;lamp</button>   
+            <div class="w-100 mt-2"></div>
+            <button class="btn btn-md btn-primary" onclick="firebaseSetLampOff()">Power&nbsp;off&nbsp;lamp</button>            
+          </div>
+
+          <div class="col col-lg-2">
+            Stare priza <span id="stare_priza_manual"></span>
+            <div class="w-100 mt-3"></div>
+            <button class="btn btn-md btn-primary" onclick="firebaseSetPlugOn()">Power&nbsp;on&nbsp;wall&nbsp;plug</button>   
+            <div class="w-100 mt-2"></div>
+            <button class="btn btn-md btn-primary" onclick="firebaseSetPlugOff()">Power&nbsp;down&nbsp;wall&nbsp;plug</button>   
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="box_auto">
+      <div class="container mt-5 d-flex justify-content-center">
+        <div class="container text-center">
+          <div class="row justify-content-md-center">
+            <div class="col col-lg-2 text-center">
+              Stare lampa <span id="stare_lampa_auto"></span>
+              <div class="w-100 mt-3"></div>
+              <button class="btn btn-md btn-primary" onclick="firebaseSetLampAuto()">Auto</button>   
+              <div class="w-100 mt-2"></div>
+              <button class="btn btn-md btn-primary" onclick="firebaseSetLampAlwaysOn()">Lamp&nbsp;Always&nbsp;ON</button> 
+              <div class="w-100 mt-2"></div>
+              <button class="btn btn-md btn-primary" onclick="firebaseSetLampAlwaysOff()">Lamp&nbsp;Always&nbsp;OFF</button>            
+            </div>
+
+            <div class="col col-lg-2">
+              Stare priza <span id="stare_priza_auto"></span>
+              <div class="w-100 mt-3"></div>
+              <button class="btn btn-md btn-primary" onclick="firebaseSetPlugAuto()">Auto</button>   
+              <div class="w-100 mt-2"></div>
+              <button class="btn btn-md btn-primary" onclick="firebaseSetPlugAlwaysOn()">Wall&nbsp;plug&nbsp;Always&nbsp;ON</button> 
+              <div class="w-100 mt-2"></div>
+              <button class="btn btn-md btn-primary" onclick="firebaseSetPlugAlwaysOff()">Wall&nbsp;plug&nbsp;Always&nbsp;OFF</button>     
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+      <div class="w-100 mt-3 d-block"></div>
+
+      <div class="container mt-5">
+        <div class="container text-center">
+            <button class="btn btn-md btn-primary d-inline" onclick="firebaseSetAllAuto()">All Auto</button>     
+        </div>
+    </div>
+
+
+    </div>
+
+
+    <script>
+
+      function select_manual() {
+        $('#btn_manual').removeClass('btn-secondary');
+        $('#btn_manual').addClass('btn-success');
+        $('#btn_auto').removeClass('btn-success');
+        $('#btn_auto').addClass('btn-secondary');
+        $('#box_manual').removeClass('d-none');
+        $('#box_auto').addClass('d-none');
+      }
+
+      function select_auto() {
+        $('#btn_manual').removeClass('btn-success');
+        $('#btn_manual').addClass('btn-secondary');
+        $('#btn_auto').removeClass('btn-secondary');
+        $('#btn_auto').addClass('btn-success');
+        $('#box_manual').addClass('d-none');
+        $('#box_auto').removeClass('d-none');
+      }
+
+
+    </script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  
+  
+    <script src="app.js" defer></script>
+  </body>
+</html>
